@@ -8,7 +8,7 @@ public class Calculator {
 
     private static final List<NewArithmeticOperator> operators = List.of(new AdditionOperator(), new SubtractionOperator(), new MultiplicationOperator(), new DivisionOperator());
 
-    public static int calculate(int operand1, String operator, int operand2) {
+    public static int calculate(PositiveNumber operand1, String operator, PositiveNumber operand2) {
         return operators.stream()
                 .filter(o -> o.supports(operator))
                 .map(o -> o.calculate(operand1, operand2))
