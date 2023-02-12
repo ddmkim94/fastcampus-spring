@@ -16,7 +16,7 @@ public class GradeCalculator {
     public double calculateGrade() {
         double multipliedCreditAndCourseGrade = 0;
         for (Course course : courses) {
-            multipliedCreditAndCourseGrade += course.getCredit() * course.getGradeToNumber();
+            multipliedCreditAndCourseGrade += course.multiplyCreditAndGrade();
         }
 
         // 수강신청 총학점 수

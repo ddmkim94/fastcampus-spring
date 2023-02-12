@@ -40,4 +40,8 @@ public class Course {
         }
         return grade;
     }
+
+    public double multiplyCreditAndGrade() {
+        return credit * getGradeToNumber();
+    }
 }
