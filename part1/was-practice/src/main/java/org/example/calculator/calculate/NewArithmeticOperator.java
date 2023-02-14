@@ -1,4 +1,4 @@
-package calculator.calculate;
+package org.example.calculator.calculate;
 
 public interface NewArithmeticOperator {
     // 해당 연산자를 지원하는지 검사
