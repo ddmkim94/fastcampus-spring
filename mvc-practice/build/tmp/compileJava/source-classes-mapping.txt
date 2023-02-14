@@ -1,2 +1,0 @@
-org/example/WebApplicationServer.java
- org.example.WebApplicationServer
