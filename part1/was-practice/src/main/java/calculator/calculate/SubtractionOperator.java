@@ -1,4 +1,4 @@
-package calcurator.calculate;
+package calculator.calculate;
 
 public class SubtractionOperator implements NewArithmeticOperator {
 

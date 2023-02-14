@@ -1,6 +1,6 @@
-package calcurator;
+package calculator;
 
-import calcurator.calculate.*;
+import calculator.calculate.*;
 
 import java.util.List;
 
