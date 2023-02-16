@@ -17,18 +17,9 @@ import java.io.PrintWriter;
  * 서블릿 객체를 싱글톤으로 관리한다.
  */
 @WebServlet("/calculate")
-public class CalculatorServlet implements Servlet {
+public class CalculatorServlet extends GenericServlet {
 
     private static final Logger log = LoggerFactory.getLogger(CalculatorServlet.class);
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        /**
-         * - 서블릿 생성 후 초기화 작업 수행 (최초 실행시 1번만 실행)
-         * - 다른 자원을 초기화 하는 경우에도 init()에 작성하면 된다.
-         */
-        log.info("init");
-    }
 
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
@@ -44,20 +35,5 @@ public class CalculatorServlet implements Servlet {
 
         PrintWriter writer = response.getWriter();
         writer.println(result);
-    }
-
-    @Override
-    public void destroy() {
-        log.info("destroy");
-    }
-
-    @Override
-    public ServletConfig getServletConfig() {
-        return null;
-    }
-
-    @Override
-    public String getServletInfo() {
-        return null;
     }
 }
