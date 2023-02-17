@@ -1,35 +1,19 @@
 package org.example;
 
+
 import java.sql.*;
 
 public class UserDao {
     public void create(User user) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-        try {
-            con = ConnectionManager.getConnection();
-
-            String sql = "INSERT INTO USERS VALUES(?, ?, ?, ?)";
-            pstmt = con.prepareStatement(sql);
-
+        String sql = "INSERT INTO USERS VALUES(?, ?, ?, ?)";
+        jdbcTemplate.executeUpdate(user, sql, pstmt -> {
             pstmt.setString(1, user.getUserId());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getName());
             pstmt.setString(4, user.getEmail());
-
-            pstmt.executeUpdate();
-            System.out.println("회원 가입 성공!!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
+        });
     }
 
     // 특정 회원 조회
