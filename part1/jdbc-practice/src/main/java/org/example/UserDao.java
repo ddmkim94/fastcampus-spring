@@ -1,50 +1,90 @@
 package org.example;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserDao {
 
-    private final DataSource dataSource = ConnectionManager.getDataSource();
+    private Connection getConnection() {
+        String url = "jdbc:h2:mem://localhost/~/jdbc-practice;MODE=MySQL;DB_CLOSE_DELAY=1";
+        String username = "sa";
+        String password = "";
 
-    private final String USER_SELECT = "select * from users where userId = ?";
-    private final String USER_INSERT = "insert into users(userId, password, name, email) values(?, ?, ? ,?)";
+        try {
+            Class.forName("org.h2.Driver");
+            return DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-    // 유저 생성
     public void create(User user) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        PreparedStatement pstm = connection.prepareStatement(USER_INSERT);
+        Connection con = null;
+        PreparedStatement pstmt = null;
 
-        pstm.setString(1, user.getUserId());
-        pstm.setString(2, user.getPassword());
-        pstm.setString(3, user.getName());
-        pstm.setString(4, user.getEmail());
+        try {
+            con = getConnection();
 
-        pstm.executeUpdate();
-        System.out.println("회원 가입 성공!!");
+            String sql = "INSERT INTO USERS VALUES(?, ?, ?, ?)";
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, user.getUserId());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setString(3, user.getName());
+            pstmt.setString(4, user.getEmail());
+
+            pstmt.executeUpdate();
+            System.out.println("회원 가입 성공!!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
     }
 
     // 특정 회원 조회
     public User findByUserId(String userId) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        PreparedStatement pstm = connection.prepareStatement(USER_SELECT);
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
-        pstm.setString(1, userId);
-        ResultSet rs = pstm.executeQuery();
+        try {
+            con = getConnection();
 
-        User user = null;
-        while (rs.next()) {
-            String id = rs.getString("userId");
-            String password = rs.getString("password");
-            String name = rs.getString("name");
-            String email = rs.getString("email");
+            String sql = "SELECT * FROM USERS WHERE userId = ?";
+            pstmt = con.prepareStatement(sql);
 
-            user = new User(id, password, name, email);
+            pstmt.setString(1, userId);
+            rs = pstmt.executeQuery();
+
+            User user = null;
+            while (rs.next()) {
+                user = new User(
+                        rs.getString("userId"),
+                        rs.getString("password"),
+                        rs.getString("name"),
+                        rs.getString("email")
+                );
+            }
+
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
         }
-        
-        return user;
+        return null;
     }
 }
