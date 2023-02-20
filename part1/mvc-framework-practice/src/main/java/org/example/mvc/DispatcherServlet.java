@@ -25,28 +25,32 @@ public class DispatcherServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(DispatcherServlet.class);
 
     private final RequestMappingHandlerMapping requestHandlerMapping = new RequestMappingHandlerMapping();
+    private List<HandlerAdapter> handlerAdapters;
     private List<ViewResolver> viewResolvers;
 
     // 서블릿을 생성할 때 RequestMappingHandlerMapping 생성 & 초기화
     @Override
     public void init() throws ServletException {
         requestHandlerMapping.init();
+        handlerAdapters = List.of(new SimpleControllerHandlerAdapter());
         viewResolvers = Collections.singletonList(new JspViewResolver());
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("[DispatcherServlet] service started!");
-        log.info("path: {}", request.getRequestURI());
-        log.info("request method type: [{}]", RequestMethod.valueOf(request.getMethod()));
-        Controller handler = requestHandlerMapping.findController(new HandlerKey(RequestMethod.valueOf(request.getMethod()), request.getRequestURI()));
-
         try {
-            String viewName = handler.handlerRequest(request, response);
+            Controller handler = requestHandlerMapping.findController(new HandlerKey(RequestMethod.valueOf(request.getMethod()), request.getRequestURI()));
+            HandlerAdapter handlerAdapter = handlerAdapters.stream()
+                    .filter(ha -> ha.supports(handler))
+                    .findFirst()
+                    .orElseThrow(() -> new ServletException("No Adapter for handler [" + handler + "]"));
+
+            ModelAndView modelAndView = handlerAdapter.handle(handler, request, response);
 
             for (ViewResolver viewResolver : viewResolvers) {
-                View view = viewResolver.resolveView(viewName);
-                view.render(new HashMap<>(), request, response);
+                View view = viewResolver.resolveView(modelAndView.getView());
+                view.render(modelAndView.getModel(), request, response);
             }
 
         } catch (Exception e) {
