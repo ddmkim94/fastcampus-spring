@@ -1,5 +1,5 @@
 package org.example.mvc;
 
 public interface HandlerMapping {
-    Object findController(HandlerKey handlerKey);
+    Object findHandler(HandlerKey handlerKey);
 }
