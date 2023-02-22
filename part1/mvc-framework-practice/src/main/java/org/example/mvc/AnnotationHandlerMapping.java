@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class AnnotationHandlerMapping implements HandlerMapping {
     private final Object[] basePackage;
-    private Map<HandlerKey, AnnotationHandler> handler = new HashMap<>();
+    private final Map<HandlerKey, AnnotationHandler> handler = new HashMap<>();
 
     public AnnotationHandlerMapping(Object... basePackage) {
         this.basePackage = basePackage;
@@ -24,11 +24,11 @@ public class AnnotationHandlerMapping implements HandlerMapping {
         Set<Class<?>> clazzWithControllerAnnotation = reflections.getTypesAnnotatedWith(Controller.class);
         clazzWithControllerAnnotation.forEach(clazz ->
                 Arrays.stream(clazz.getDeclaredMethods()).forEach(declaredMethod -> {
-                            RequestMapping requestMapping = declaredMethod.getDeclaredAnnotation(RequestMapping.class);
+                            RequestMapping requestMappingAnnotation = declaredMethod.getDeclaredAnnotation(RequestMapping.class);
 
-                    Arrays.stream(getRequestMethods(requestMapping))
+                    Arrays.stream(getRequestMethods(requestMappingAnnotation))
                             .forEach(requestMethod -> handler.put(
-                                    new HandlerKey(requestMethod, requestMapping.value()), new AnnotationHandler(clazz, declaredMethod)
+                                    new HandlerKey(requestMethod, requestMappingAnnotation.value()), new AnnotationHandler(clazz, declaredMethod)
                             ));
                 })
         );
@@ -38,8 +38,8 @@ public class AnnotationHandlerMapping implements HandlerMapping {
      * Method가 여러 개인 경우를 위해서 배열 타입으로 반환한다.
      * 사실 Method가 여러개인 경우는 거의 없다...!
      */
-    private RequestMethod[] getRequestMethods(RequestMapping requestMapping) {
-        return requestMapping.method();
+    private RequestMethod[] getRequestMethods(RequestMapping requestMappingAnnotation) {
+        return requestMappingAnnotation.method();
     }
 
     @Override

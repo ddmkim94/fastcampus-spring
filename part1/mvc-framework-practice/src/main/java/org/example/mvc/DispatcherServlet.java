@@ -38,7 +38,7 @@ public class DispatcherServlet extends HttpServlet {
 
         handlerMappings = List.of(rmhm, ahm);
 
-        handlerAdapters = List.of(new SimpleControllerHandlerAdapter());
+        handlerAdapters = List.of(new SimpleControllerHandlerAdapter(), new AnnotationHandlerAdapter());
         viewResolvers = Collections.singletonList(new JspViewResolver());
     }
 
@@ -48,13 +48,13 @@ public class DispatcherServlet extends HttpServlet {
         String requestURI = request.getRequestURI();
         RequestMethod requestMethod = RequestMethod.valueOf(request.getMethod());
 
-        try {
-            Object handler = handlerMappings.stream()
-                    .filter(hm -> hm.findHandler(new HandlerKey(requestMethod, requestURI)) != null)
-                    .map(hm -> hm.findHandler(new HandlerKey(requestMethod, requestURI)))
-                    .findFirst()
-                    .orElseThrow(() -> new ServletException("No handler for [" + requestMethod + ", " + requestURI + "]"));
+        Object handler = handlerMappings.stream()
+                .filter(hm -> hm.findHandler(new HandlerKey(requestMethod, requestURI)) != null)
+                .map(hm -> hm.findHandler(new HandlerKey(requestMethod, requestURI)))
+                .findFirst()
+                .orElseThrow(() -> new ServletException("No handler for [" + requestMethod + ", " + requestURI + "]"));
 
+        try {
             HandlerAdapter handlerAdapter = handlerAdapters.stream()
                     .filter(ha -> ha.supports(handler))
                     .findFirst()
