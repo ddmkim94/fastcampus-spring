@@ -22,6 +22,9 @@ spring:
       hibernate.format_sql: true
       hibernate.default_batch_fetch_size: 100
   sql.init.mode: always
+  data.rest:
+      base-path: /api
+      detection-strategy: annotated # API 로 만들어줄 레포지토리를 찾는 전략 -> @Repository 가 붙은 것만 감지한다.
 
 #  data.rest:
 #    base-path: /api
