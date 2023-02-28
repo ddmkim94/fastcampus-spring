@@ -28,7 +28,7 @@ class ArticleControllerTest {
     void articleListViewTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/articles"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.valueOf("text/html;charset=utf-8"))) // view 이기 때문에 응답 타입은 text/html
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML)) // view 이기 때문에 응답 타입은 text/html
                 .andExpect(view().name("articles/index"))
                 .andExpect(model().attributeExists("articles")) // model 에 해당 이름으로 넘긴 데이터가 있는지 체크
                 .andDo(print());
