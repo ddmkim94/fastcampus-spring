@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"> <!-- 최신 버전에서는 생략해도 별 문제 없는듯.. -->
 <head>
     <meta charset="UTF-8">
     <title>게시판 페이지</title>
 </head>
 <body>
 
-  <header>
-    header 삽입부
-    <hr>
-  </header>
+  <!-- header.html 에서 header 엘리먼트로 대체해라! -->
+  <header th:replace="~{header :: header}"></header>
 
   <main>
     <form action="">
@@ -73,9 +71,7 @@
     </nav>
   </main>
 
-  <footer>
-    <hr>
-    footer 삽입부
-  </footer>
+  <!-- ~{ } 생략 가능함!  -->
+  <footer th:replace="footer :: footer"></footer>
 </body>
 </html>
