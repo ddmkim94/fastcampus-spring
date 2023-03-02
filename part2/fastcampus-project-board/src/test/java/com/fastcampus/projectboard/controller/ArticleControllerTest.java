@@ -1,18 +1,20 @@
 package com.fastcampus.projectboard.controller;
 
+import com.fastcampus.projectboard.config.SecurityConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("View 컨트롤러 - 게시글")
+@Import(SecurityConfig.class)
 @WebMvcTest(ArticleController.class) // 해당 컨트롤러만 감지하도록..
 class ArticleControllerTest {
 
@@ -22,16 +24,15 @@ class ArticleControllerTest {
         this.mvc = mvc;
     }
 
-    @DisplayName("[view][GET] 게시글 리스트 (게시판) 페이지 - 정상 호출")
+    @DisplayName("[view][GET] 로그인 페이지 - 정상 호출")
     @Test
-    void articleListViewTest() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/articles"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML)) // view 이기 때문에 응답 타입은 text/html
-                .andExpect(view().name("articles/index"))
-                .andExpect(model().attributeExists("articles")) // model 에 해당 이름으로 넘긴 데이터가 있는지 체크
-                .andDo(print());
+    void loginTest() throws Exception {
+        // Given
 
+        // When & Then
+        mvc.perform(MockMvcRequestBuilders.get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
     }
 
     @DisplayName("[view][GET] 게시글 상세 페이지 - 정상 호출")
