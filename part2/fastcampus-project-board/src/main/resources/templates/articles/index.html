@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"> <!-- 최신 버전에서는 생략해도 별 문제 없는듯.. -->
+<html lang="ko"> <!-- 최신 버전에서는 생략해도 별 문제 없는듯.. -->
 <head>
     <meta charset="UTF-8">
     <title>게시판 페이지</title>
@@ -7,7 +7,7 @@
 <body>
 
   <!-- header.html 에서 header 엘리먼트로 대체해라! -->
-  <header th:replace="~{header :: header}"></header>
+  <header id="header"></header>
 
   <main>
     <form action="">
@@ -72,6 +72,6 @@
   </main>
 
   <!-- ~{ } 생략 가능함!  -->
-  <footer th:replace="footer :: footer"></footer>
+  <footer id="footer"></footer>
 </body>
 </html>
