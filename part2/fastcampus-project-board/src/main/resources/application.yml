@@ -25,6 +25,7 @@ spring:
   data.rest:
       base-path: /api
       detection-strategy: annotated # API 로 만들어줄 레포지토리를 찾는 전략 -> @Repository 가 붙은 것만 감지한다.
+  thymeleaf3.decoupled-logic: true
 
 #  data.rest:
 #    base-path: /api
