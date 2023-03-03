@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,10 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class DataRestTest {
 
-    private final MockMvc mockMvc;
+    private final MockMvc mvc;
 
-    public DataRestTest(@Autowired MockMvc mockMvc) {
-        this.mockMvc = mockMvc;
+    public DataRestTest(@Autowired MockMvc mvc) {
+        this.mvc = mvc;
     }
 
     @DisplayName("[api] 게시글 목록 조회")
@@ -34,7 +34,7 @@ public class DataRestTest {
         // Given
 
         // When & Then
-        mockMvc.perform(get("/api/articles")) // 해당 주소로 GET 요청을 수행했을 때
+        mvc.perform(get("/api/articles")) // 해당 주소로 GET 요청을 수행했을 때
                 .andExpect(status().isOk())  // 응답 상태가 200 인가?
                 .andExpect(content().contentType(MediaType.valueOf("application/hal+json"))) // content-type 은 application/hal+json 인가?
                 .andDo(print()); // api 호출 결과 출력
@@ -46,7 +46,7 @@ public class DataRestTest {
         // Given
 
         // When & Then
-        mockMvc.perform(get("/api/articles/1")) // 해당 주소로 GET 요청을 수행했을 때
+        mvc.perform(get("/api/articles/1")) // 해당 주소로 GET 요청을 수행했을 때
                 .andExpect(status().isOk())  // 응답 상태가 200 인가?
                 .andExpect(content().contentType(MediaType.valueOf("application/hal+json"))) // content-type 은 application/hal+json 인가?
                 .andDo(print()); // api 호출 결과 출력
@@ -58,7 +58,7 @@ public class DataRestTest {
         // Given
 
         // When & Then
-        mockMvc.perform(get("/api/articles/1/articleComments")) // 해당 주소로 GET 요청을 수행했을 때
+        mvc.perform(get("/api/articles/1/articleComments")) // 해당 주소로 GET 요청을 수행했을 때
                 .andExpect(status().isOk())  // 응답 상태가 200 인가?
                 .andExpect(content().contentType(MediaType.valueOf("application/hal+json"))) // content-type 은 application/hal+json 인가?
                 .andDo(print()); // api 호출 결과 출력
@@ -70,7 +70,7 @@ public class DataRestTest {
         // Given
 
         // When & Then
-        mockMvc.perform(get("/api/articleComments")) // 해당 주소로 GET 요청을 수행했을 때
+        mvc.perform(get("/api/articleComments")) // 해당 주소로 GET 요청을 수행했을 때
                 .andExpect(status().isOk())  // 응답 상태가 200 인가?
                 .andExpect(content().contentType(MediaType.valueOf("application/hal+json"))) // content-type 은 application/hal+json 인가?
                 .andDo(print()); // api 호출 결과 출력
@@ -82,9 +82,23 @@ public class DataRestTest {
         // Given
 
         // When & Then
-        mockMvc.perform(get("/api/articleComments/1")) // 해당 주소로 GET 요청을 수행했을 때
+        mvc.perform(get("/api/articleComments/1")) // 해당 주소로 GET 요청을 수행했을 때
                 .andExpect(status().isOk())  // 응답 상태가 200 인가?
                 .andExpect(content().contentType(MediaType.valueOf("application/hal+json"))) // content-type 은 application/hal+json 인가?
                 .andDo(print()); // api 호출 결과 출력
+    }
+
+    @DisplayName("[api] 회원 관련 API 는 일체 제공하지 않는다.")
+    @Test
+    void givenNothing_whenRequestingUserAccounts_thenThrowsException() throws Exception {
+        // Given
+
+        // When & Then
+        mvc.perform(get("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(post("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(put("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(patch("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(delete("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(head("/api/userAccounts")).andExpect(status().isNotFound());
     }
 }
