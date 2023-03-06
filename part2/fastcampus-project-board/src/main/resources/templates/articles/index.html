@@ -11,7 +11,10 @@
 <body>
 
   <!-- header.html 에서 header 엘리먼트로 대체해라! -->
-  <header id="header"></header>
+  <header id="header">
+      헤더 삽입부
+      <hr>
+  </header>
 
   <main class="container">
     <div class="row">
@@ -51,33 +54,33 @@
       </div>
     </div>
 
-    <table class="table">
+    <table class="table" id="article-table">
       <thead>
         <tr>
-          <th class="col-6">제목</th>
-          <th class="col-3">해시태그</th>
-          <th class="col">작성자</th>
-          <th class="col">작성일</th>
+          <th class="title col-6">제목</th>
+          <th class="hashtag col-3">해시태그</th>
+          <th class="user-id col">작성자</th>
+          <th class="created-at col">작성일</th>
         </tr>
       </thead>
       <tbody>
       <tr>
-        <td>첫 게시글!</td>
-        <td>#처음</td>
-        <td>동민</td>
-        <td>2023-02-28</td>
+        <td class="title"><a href="#">첫 게시글!</a></td>
+        <td class="hashtag">#처음</td>
+        <td class="user-id">동민</td>
+        <td class="created-at"><time>2023-02-28</time></td>
       </tr>
       <tr>
         <td>두번 째 게시글!</td>
         <td>#두번 째</td>
         <td>동민</td>
-        <td>2023-02-28</td>
+        <td><time>2023-02-28</time></td>
       </tr>
       <tr>
         <td>세번 째 게시글!</td>
         <td>#세번 째</td>
         <td>동민</td>
-        <td>2023-02-28</td>
+        <td><time>2023-02-28</time></td>
       </tr>
       </tbody>
     </table>
@@ -94,6 +97,9 @@
   </main>
 
   <!-- ~{ } 생략 가능함!  -->
-  <footer id="footer"></footer>
+  <footer id="footer">
+      푸터 삽입부
+      <hr>
+  </footer>
 </body>
 </html>
