@@ -39,6 +39,7 @@ public class ArticleController {
 
         map.addAttribute("articles", articles);
         map.addAttribute("paginationBarNumbers", paginationBarNumbers);
+        map.addAttribute("searchTypes", SearchType.values()); // Enum[] 을 반환!
         return "articles/index";
     }
 
