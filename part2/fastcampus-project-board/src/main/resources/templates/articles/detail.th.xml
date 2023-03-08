@@ -11,6 +11,12 @@
         <attr sel="#hashtag" th:text="*{hashtag}" />
         <attr sel="#article-content/pre" th:text="*{content}" />
 
+    <attr sel="#article-buttons">
+        <attr sel="#delete-article-form" th:action="'/articles/' + *{id} + '/delete'" th:method="post">
+            <attr sel="#update-article" th:href="'/articles/' + *{id} + '/form'" />
+        </attr>
+    </attr>
+
         <!-- th:remove="all-but-first" -> 첫 번째 요소만 제외하고 모두 제거 -->
         <attr sel="#article-comments" th:remove="all-but-first">
             <attr sel="li[0]" th:each="articleComment : ${articleComments}">
