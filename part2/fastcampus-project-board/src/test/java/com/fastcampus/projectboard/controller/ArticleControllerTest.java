@@ -37,8 +37,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("View 컨트롤러 - 게시글")
-@Import(SecurityConfig.class)
-@WebMvcTest({ArticleController.class, FormDataEncoder.class}) // 해당 컨트롤러만 감지하도록..
+@Import({SecurityConfig.class, FormDataEncoder.class})
+@WebMvcTest(ArticleController.class)
 class ArticleControllerTest {
 
     private final MockMvc mvc;
