@@ -26,6 +26,8 @@ public interface ArticleRepository extends
     Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
     Page<Article> findByHashtag(String hashtag, Pageable pageable);
 
+    void deleteByIdAndUserAccount_UserId(Long articleId, String userId);
+
     // java 8 이후부터는 인터페이스에 default method 구현 가능!
     // 검색 조건을 커스터마이즈 하는 메서드
     @Override
