@@ -27,10 +27,11 @@ spring:
       detection-strategy: annotated # API 로 만들어줄 레포지토리를 찾는 전략 -> @Repository 가 붙은 것만 감지한다.
   thymeleaf3.decoupled-logic: true
 
-#  data.rest:
-#    base-path: /api
-#    detection-strategy: annotated
-#  thymeleaf3.decoupled-logic: true
-
 # yml 파일은 ---로 도큐먼트를 구분한다. 새로운 도큐먼트 시작!
 ---
+spring:
+  config.activate.on-profile: heroku
+  datasource:
+    url: ${CLEARDB_DATABASE_URL} # 여기 username, password 가 포함되어 있음!
+  jpa.hibernate.ddl-auto: create
+  sql.init.mode: always
