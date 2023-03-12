@@ -32,6 +32,6 @@ spring:
 spring:
   config.activate.on-profile: heroku
   datasource:
-    url: ${CLEARDB_DATABASE_URL} # 여기 username, password 가 포함되어 있음!
+    url: ${JAWSDB_URL} # 여기 username, password 가 포함되어 있음!
   jpa.hibernate.ddl-auto: create
   sql.init.mode: always
