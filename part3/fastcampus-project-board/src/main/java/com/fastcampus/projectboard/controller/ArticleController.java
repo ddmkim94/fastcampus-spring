@@ -2,7 +2,6 @@ package com.fastcampus.projectboard.controller;
 
 import com.fastcampus.projectboard.domain.constant.FormStatus;
 import com.fastcampus.projectboard.domain.constant.SearchType;
-import com.fastcampus.projectboard.dto.UserAccountDto;
 import com.fastcampus.projectboard.dto.request.ArticleRequest;
 import com.fastcampus.projectboard.dto.response.ArticleResponse;
 import com.fastcampus.projectboard.dto.response.ArticleWithCommentsResponse;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RequestMapping("/articles")

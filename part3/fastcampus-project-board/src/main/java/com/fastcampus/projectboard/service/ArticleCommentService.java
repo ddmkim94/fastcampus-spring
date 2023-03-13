@@ -4,13 +4,11 @@ import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.ArticleComment;
 import com.fastcampus.projectboard.domain.UserAccount;
 import com.fastcampus.projectboard.dto.ArticleCommentDto;
-import com.fastcampus.projectboard.dto.security.BoardPrincipal;
 import com.fastcampus.projectboard.repository.ArticleCommentRepository;
 import com.fastcampus.projectboard.repository.ArticleRepository;
 import com.fastcampus.projectboard.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
