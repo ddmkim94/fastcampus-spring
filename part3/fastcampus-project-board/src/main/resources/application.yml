@@ -9,10 +9,10 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/board
+    url: jdbc:postgresql://localhost:5432/board
     username: dongmin
     password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver # url 을 보고 자동으로 잡아준다. -> 생략이 가능
   jpa:
     defer-datasource-initialization: true
     hibernate.ddl-auto: create
