@@ -1,12 +1,12 @@
 package com.fastcampus.projectboard.dto.response;
 
-import com.fastcampus.projectboard.dto.ArticleCommentDto;
 import com.fastcampus.projectboard.dto.ArticleWithCommentsDto;
 import com.fastcampus.projectboard.dto.HashtagDto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.function.Function;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public record ArticleWithCommentsResponse(
@@ -19,7 +19,7 @@ public record ArticleWithCommentsResponse(
         String nickname,
         String userId,
         Set<ArticleCommentResponse> articleCommentsResponse
-) {
+) implements Serializable {
 
     public static ArticleWithCommentsResponse of(Long id, String title, String content, Set<String> hashtags, LocalDateTime createdAt, String email, String nickname, String userId, Set<ArticleCommentResponse> articleCommentResponses) {
         return new ArticleWithCommentsResponse(id, title, content, hashtags, createdAt, email, nickname, userId, articleCommentResponses);
@@ -42,31 +42,10 @@ public record ArticleWithCommentsResponse(
                 dto.userAccountDto().email(),
                 nickname,
                 dto.userAccountDto().userId(),
-                organizeChildComments(dto.articleCommentDtos())
+                dto.articleCommentDtos().stream()
+                        .map(ArticleCommentResponse::from)
+                        .collect(Collectors.toCollection(LinkedHashSet::new))
         );
-    }
-
-    private static Set<ArticleCommentResponse> organizeChildComments(Set<ArticleCommentDto> dtos) {
-        Map<Long, ArticleCommentResponse> map = dtos.stream()
-                .map(ArticleCommentResponse::from)
-                .collect(Collectors.toMap(ArticleCommentResponse::id, Function.identity()));
-
-        map.values().stream()
-                .filter(ArticleCommentResponse::hasParentComment) // 부모 댓글이 있는 것만 필터링 -> 자식 댓글
-                .forEach(comment -> {
-                    ArticleCommentResponse parentComment = map.get(comment.parentCommentId());
-                    parentComment.childComments().add(comment);
-                });
-
-        return map.values().stream()
-                .filter(comment -> !comment.hasParentComment())
-                .collect(Collectors.toCollection(() ->
-                        new TreeSet<>(Comparator
-                                .comparing(ArticleCommentResponse::createdAt)
-                                .reversed()
-                                .thenComparingLong(ArticleCommentResponse::id)
-                        )
-                ));
     }
 
 }
